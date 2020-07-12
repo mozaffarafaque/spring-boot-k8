@@ -3,12 +3,17 @@
  */
 package afaque.spring.boot.k8;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.Collections;
+
+@SpringBootApplication
 public class Application {
-    public String getGreeting() {
-        return "Hello world.";
-    }
 
     public static void main(String[] args) {
-        System.out.println(new Application().getGreeting());
+        SpringApplication application =  new SpringApplication(Application.class);
+        application.setDefaultProperties(Collections.singletonMap("server.port", "8081"));
+        application.run(args);
     }
 }

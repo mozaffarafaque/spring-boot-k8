@@ -9,6 +9,6 @@ import static org.testng.Assert.*;
 public class ApplicationTest {
     @Test public void appHasAGreeting() {
         Application classUnderTest = new Application();
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+        assertNotNull(classUnderTest, "app should have a greeting");
     }
 }

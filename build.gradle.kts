@@ -6,31 +6,57 @@
  * User Manual available at https://docs.gradle.org/6.5/userguide/tutorial_java_projects.html
  */
 
-plugins {
-    // Apply the java plugin to add support for Java
-    java
-
-    // Apply the application plugin to add support for building a CLI application.
-    application
-}
-
 repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
 }
 
+plugins {
+
+    id("java")
+    id("idea")
+    id("application")
+    id("org.springframework.boot") version "2.3.0.RELEASE"
+    id("io.spring.dependency-management") version "1.0.8.RELEASE"
+
+}
+
+
+val jar by tasks.getting(Jar::class) {
+    manifest {
+        attributes["Main-Class"] = "afaque.spring.boot.k8.Application"
+    }
+
+    from(sourceSets.main.get().output)
+
+    dependsOn(configurations.runtimeClasspath)
+    from({
+        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+    })
+}
+
+
+group = "afaque.spring"
+version = "1.1-SNAPSHOT"
+java.sourceCompatibility = JavaVersion.VERSION_11
+//
+//application {
+//    // Define the main class for the application.
+//    mainClassName = "afaque.spring.boot.k8.Application"
+//}
+
+
+
 dependencies {
     // This dependency is used by the application.
     implementation("com.google.guava:guava:29.0-jre")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+
 
     // Use TestNG framework, also requires calling test.useTestNG() below
     testImplementation("org.testng:testng:7.2.0")
-}
-
-application {
-    // Define the main class for the application.
-    mainClassName = "afaque.spring.boot.k8.Application"
 }
 
 val test by tasks.getting(Test::class) {
