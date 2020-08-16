@@ -1,0 +1,28 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-smaple-k8-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: test-smaple-k8-app
+  template:
+    metadata:
+      labels:
+        app: test-smaple-k8-app
+    spec:
+      containers:
+      - name: test-smaple-k8-app
+        image: sample-app:1.0
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8081
+        livenessProbe:
+          httpGet:
+            path: /sample-get
+            port: 8081
+          initialDelaySeconds: 30
+          timeoutSeconds: 1
+
