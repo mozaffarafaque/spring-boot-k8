@@ -1,4 +1,4 @@
-package afaque.spring.boot.k8;
+package com.mozafaq.test.springboot.appgateway;
 
 public class PostResponse<T> {
 

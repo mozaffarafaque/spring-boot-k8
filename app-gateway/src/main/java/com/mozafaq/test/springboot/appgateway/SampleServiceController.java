@@ -1,8 +1,9 @@
-package afaque.spring.boot.k8;
+package com.mozafaq.test.springboot.appgateway;
 
 
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.mozafaq.test.springboot.utilslib.TestClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +19,9 @@ public class SampleServiceController {
 
     @GetMapping("/sample-get")
     public Response sampleGet(@RequestParam(value = "name", defaultValue = "Unknown") String name) {
+        LOG.info("Request : " + name + " - " + new TestClass().randomString());
         return new Response(counter.incrementAndGet(), String.format(template, name));
     }
-
 
     @GetMapping("/custom-waited-get")
     public Response sampleGetDelayed(@RequestParam(value = "waitInSeconds", defaultValue = "10") int waitTime,
