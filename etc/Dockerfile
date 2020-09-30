@@ -1,4 +1,7 @@
 FROM openjdk:11-jre-slim 
-ARG JAR_FILE=build/libs/spring-boot-k8-1.1-SNAPSHOT.jar
+RUN apt-get update && apt-get install -y procps curl
+
+ARG JAR_FILE=app-gateway/build/libs/app-gateway-1.0.jar
 COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java", "-DLOGS=/tmp/", "-jar","/app.jar"]
+

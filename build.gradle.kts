@@ -24,7 +24,7 @@ allprojects {
 
 subprojects {
     group = "com.mozafaq.test.springboot"
-    version = "1.0.0"
+    version = "1.0"
 
     apply {
         plugin("java")
