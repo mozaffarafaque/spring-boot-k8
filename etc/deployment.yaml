@@ -2,19 +2,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: test-smaple-k8-app
+  name: test-sample-k8-app
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: test-smaple-k8-app
+      app: test-sample-k8-app
   template:
     metadata:
       labels:
-        app: test-smaple-k8-app
+        app: test-sample-k8-app
     spec:
       containers:
-      - name: test-smaple-k8-app
+      - name: test-sample-k8-app
         image: mozafaq/test-springboot-app:1.1
         imagePullPolicy: Never
         ports:
