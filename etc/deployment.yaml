@@ -16,7 +16,7 @@ spec:
       containers:
       - name: test-sample-k8-app
         image: mozafaq/test-springboot-app:1.1
-        imagePullPolicy: Never
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         livenessProbe:
