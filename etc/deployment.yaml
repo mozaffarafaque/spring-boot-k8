@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: test-smaple-k8-app
-        image: sample-app:1.0
+        image: sample-app:1.1
         imagePullPolicy: Never
         ports:
         - containerPort: 8080
