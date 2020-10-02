@@ -2,7 +2,7 @@ DIR=$(dirname $0)
 
 echo "Dir name $DIR"
 
-APP_IMAGE="test-springboot-app:1.1"
+APP_IMAGE="test-springboot-app:1.2"
 
 docker build -f Dockerfile -t ${APP_IMAGE} ..
 

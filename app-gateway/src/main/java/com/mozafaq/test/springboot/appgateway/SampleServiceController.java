@@ -18,8 +18,8 @@ public class SampleServiceController {
     private final AtomicLong concurrencyCounter = new AtomicLong();
 
     @GetMapping("/sample-get")
-    public Response sampleGet(@RequestParam(value = "name", defaultValue = "Unknown") String name) {
-        LOG.info("Request : " + name + " - " + new TestClass().randomString());
+    public Response sampleGet(@RequestParam(value = "name", defaultValue = "UnknownRequest") String name) {
+        LOG.info("Request : " + name + " (" + new TestClass().randomString() + ")");
         return new Response(counter.incrementAndGet(), String.format(template, name));
     }
 
