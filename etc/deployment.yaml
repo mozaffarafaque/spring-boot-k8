@@ -18,11 +18,11 @@ spec:
         image: sample-app:1.0
         imagePullPolicy: Never
         ports:
-        - containerPort: 8081
+        - containerPort: 8080
         livenessProbe:
           httpGet:
             path: /sample-get
-            port: 8081
+            port: 8080
           initialDelaySeconds: 30
           timeoutSeconds: 1
 
