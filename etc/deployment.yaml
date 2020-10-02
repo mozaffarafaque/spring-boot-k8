@@ -15,13 +15,13 @@ spec:
     spec:
       containers:
       - name: test-smaple-k8-app
-        image: sample-app:1.1
+        image: mozafaq/test-springboot-app:1.1
         imagePullPolicy: Never
         ports:
         - containerPort: 8080
         livenessProbe:
           httpGet:
-            path: /sample-get
+            path: /sample-get?name=HealthCheck
             port: 8080
           initialDelaySeconds: 30
           timeoutSeconds: 1
