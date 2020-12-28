@@ -17,6 +17,12 @@ public class SampleServiceController {
     private final AtomicLong counter = new AtomicLong();
     private final AtomicLong concurrencyCounter = new AtomicLong();
 
+    @GetMapping("/status")
+    public String getStatus() {
+        LOG.info("Request for status query");
+        return "OK";
+    }
+
     @GetMapping("/sample-get")
     public Response sampleGet(@RequestParam(value = "name", defaultValue = "UnknownRequest") String name) {
         LOG.info("Request : " + name + " (" + new TestClass().randomString() + ")");
@@ -68,6 +74,5 @@ public class SampleServiceController {
         }
         return new PostResponse<>(counter.incrementAndGet(), request.getPayload());
     }
-
-
+    
 }
