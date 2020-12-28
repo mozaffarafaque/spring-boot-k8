@@ -5,8 +5,7 @@
 
 ###   Steps followed:
   - https://www.zekelabs.com/blog/how-to-install-kubernetes-cluster-on-aws-ec2-instances/
-
-
+  - https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands
 
 ## ec2 Instance
 
@@ -115,6 +114,13 @@ kubeadm join 172.31.61.80:6443 --token <TOKEN> --discovery-token-ca-cert-hash <C
 	
 ## Other kubctl commands
 
+- Create deplyment
+
+```$xslt
+ kubectl apply -f <Deplyment file>
+```
+
+
 - For getting the nodes
 
 ```$xslt
@@ -149,7 +155,7 @@ kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl versio
 
 -  Server expose
 ```$xslt
-sudo kubectl expose deployment test-sample-k8-app --type=NodePort --name=test-sample-k8-app
+sudo kubectl expose deployment test-sample-k8-app --type=NodePort --name=test-sample-k8-app  -n=expl-sample-namespace
 ```
 
 - Delete deployment in specified namespace
@@ -162,10 +168,9 @@ sudo kubectl expose deployment test-sample-k8-app --type=NodePort --name=test-sa
 ```$xslt
  kubectl describe services  test-sample-k8-app -n=expl-sample-namespace
 ```
- 
 - To get the application name
 ```$xslt
- sudo kubectl describe services  test-sample-k8-app
+ sudo kubectl describe services  test-sample-k8-app  -n=expl-sample-namespace
 ```
 
 - Delete service
@@ -175,11 +180,23 @@ sudo kubectl expose deployment test-sample-k8-app --type=NodePort --name=test-sa
 
 - Restart service
 ```$xslt
- sudo kubectl rollout restart deployment test-sample-k8-app
+ sudo kubectl rollout restart deployment test-sample-k8-app -n=expl-sample-namespace
 ``` 
 
 - See all pods
 
 ```$xslt
  kubectl delete --all pods --namespace=default
+```
+
+- ssh into pod
+```$xslt
+ kubectl exec -t -i -n=<namespace> <pod name> bash
+
+```
+
+- Scaling in/out
+
+```$xslt
+kubectl scale deployment test-sample-k8-app -n=expl-sample-namespace  --replicas <count>
 ```
