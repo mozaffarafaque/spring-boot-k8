@@ -49,8 +49,11 @@ Create user & Add user to Docker group
 sudo useradd -d /home/afaque afaque  
 sudo usermod -aG docker afaque
 ```
+Sometimes additionally we have to execute followings
 
-
+```jshelllanguage
+sudo chmod 666 /var/run/docker.sock
+```
 To remove old package 
 ```jshelllanguage
 sudo yum remove docker docker-common docker-selinux docker-engine-selinux docker-engine docker-ce

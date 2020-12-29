@@ -74,5 +74,5 @@ public class SampleServiceController {
         }
         return new PostResponse<>(counter.incrementAndGet(), request.getPayload());
     }
-    
+
 }
