@@ -3,5 +3,6 @@ RUN apt-get update && apt-get install -y procps curl
 
 ARG JAR_FILE=app-worker-compute/build/libs/app-worker-compute-1.0.jar
 COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java", "-DLOGS=/tmp/", "-jar","/app.jar"]
+
+ENTRYPOINT ["java", "-DLOGS=/tmp/", "-jar","/app.jar", "8091"]
 

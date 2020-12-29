@@ -13,7 +13,9 @@ public class Application {
 
     public static void main(String[] args) {
         SpringApplication application =  new SpringApplication(Application.class);
-        //application.setDefaultProperties(Collections.singletonMap("server.port", "8081"));
+        if (args.length == 1) {
+            application.setDefaultProperties(Collections.singletonMap("server.port", args[0]));
+        }
         application.run(args);
     }
 }

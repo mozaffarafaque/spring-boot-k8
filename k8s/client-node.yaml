@@ -1,15 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: client-node-port
+  name: client-service-node
 
 spec:
   type: NodePort
-  containers:
-    - name: client
-        ports:
-        - port: 3050
-          targetPort: 8080
-          nodePort: 31515
-        selector:
-          component: web
+  ports:
+  - port: 3050
+    targetPort: 8080
+    nodePort: 31515
+  selector:
+    component: web
