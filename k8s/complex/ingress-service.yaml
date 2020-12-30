@@ -19,13 +19,20 @@ spec:
                 name: gateway-cluster-ip-service
                 port:
                   number: 9011
-          - path: /controller/
+          - path: /controller
             pathType: Prefix
             backend:
               service:
                 name: worker-controller-cluster-ip-service
                 port:
                   number: 9031
+          - path: /compute
+            pathType: Prefix
+            backend:
+              service:
+                name: worker-compute-cluster-ip-service
+                port:
+                  number: 9021
 
 
 
