@@ -2,9 +2,9 @@
 <!DOCTYPE xml>
 <configuration debug="true">
     <appender name="LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/tmp/app-worker-compute.log</file>
+        <file>/tmp/app-wroker-controller.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/tmp/%d{yyyyMMdd}/compute-worker-app-%d{yyyyMMdd}.log.gz</fileNamePattern>
+            <fileNamePattern>/tmp/%d{yyyyMMdd}/app-worker-controller-%d{yyyyMMdd}.log.gz</fileNamePattern>
             <maxHistory>1</maxHistory>
             <totalSizeCap>1GB</totalSizeCap>
         </rollingPolicy>

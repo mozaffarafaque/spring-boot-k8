@@ -1,0 +1,8 @@
+FROM openjdk:11-jre-slim 
+RUN apt-get update && apt-get install -y procps curl
+
+ARG JAR_FILE=app-worker-controller/build/libs/app-worker-controller-1.0.jar
+COPY ${JAR_FILE} app.jar
+
+ENTRYPOINT ["java", "-DLOGS=/tmp/", "-jar","/app.jar", "9031"]
+

@@ -21,7 +21,7 @@ public class ComputeController {
     @GetMapping("/app-name")
     public String appName() {
         LOG.info("Request for Application name");
-        return "app-worker-compute\n";
+        return "app-worker-controller\n";
     }
 
     @GetMapping("/status")
