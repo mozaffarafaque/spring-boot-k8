@@ -4,15 +4,15 @@ echo "Dir name $DIR"
 
 set -e
 
-APP_IMAGE1="test-app-gateway:1.4"
+APP_IMAGE1="test-app-gateway:1.5"
 
 docker build -f app-gateway.docker -t mozafaq/${APP_IMAGE1} ..
 
-APP_IMAGE2="test-app-worker-compute:1.4"
+APP_IMAGE2="test-app-worker-compute:1.5"
 
 docker build -f app-worker-compute.docker -t mozafaq/${APP_IMAGE2} ..
 
-APP_IMAGE3="test-app-worker-controller:1.4"
+APP_IMAGE3="test-app-worker-controller:1.5"
 
 docker build -f app-worker-controller.docker -t mozafaq/${APP_IMAGE3} ..
 
