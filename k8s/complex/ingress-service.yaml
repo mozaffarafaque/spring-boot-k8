@@ -1,4 +1,5 @@
 apiVersion: networking.k8s.io/v1
+
 kind: Ingress
 
 metadata:
@@ -13,12 +14,16 @@ spec:
         paths:
           - path: /
             backend:
-              serviceName: gateway-cluster-ip-service
-              servicePort: 9011
+              service:
+                name: gateway-cluster-ip-service
+                port:
+                  number: 9011
           - path: /controller/
             backend:
-              serviceName: worker-controller-cluster-ip-service
-              servicePort: 9031
+              service:
+                name: worker-controller-cluster-ip-service
+                port:
+                  number: 9031
 
 
 
