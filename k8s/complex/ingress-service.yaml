@@ -13,12 +13,14 @@ spec:
     - http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
               service:
                 name: gateway-cluster-ip-service
                 port:
                   number: 9011
           - path: /controller/
+            pathType: Prefix
             backend:
               service:
                 name: worker-controller-cluster-ip-service
