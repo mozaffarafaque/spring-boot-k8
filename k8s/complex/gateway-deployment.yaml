@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name:  app-gateway
-          image: mozafaq/test-app-gateway:1.4
+          image: mozafaq/test-app-gateway:1.5
           imagePullPolicy: Always
           ports:
             - containerPort: 9011

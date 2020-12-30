@@ -1,6 +1,9 @@
 package com.mozafaq.test.springboot.utilslib;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -13,6 +16,8 @@ import java.util.stream.Collectors;
 
 public class HttpClient
 {
+    private static final Logger LOG = LoggerFactory.getLogger(HttpClient.class);
+
     private static final String USER_AGENT = "Mozilla/5.0";
     private static final String GET = "GET";
     private String url = "";
@@ -52,6 +57,8 @@ public class HttpClient
             finalUrl = "https://".concat(finalUrl);
         }
 
+
+        LOG.info("Final URL: " + finalUrl);
         URL obj = new URL(finalUrl);
         BufferedReader in = null;
         StringBuffer sb = new StringBuffer();
@@ -59,6 +66,8 @@ public class HttpClient
         try {
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
             con.setRequestMethod(GET);
+
+
             con.setRequestProperty("User-Agent", USER_AGENT);
             con.connect();
 
@@ -82,6 +91,7 @@ public class HttpClient
             }
         }
 
+        LOG.info("Response: " + sb);
         return sb.toString();
     }
 }
