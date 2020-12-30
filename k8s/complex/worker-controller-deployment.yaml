@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-worker-controller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: worker-controller
+  template:
+    metadata:
+      labels:
+        component: worker-controller
+    spec:
+      volumes:
+        - name: persistent-storage-1
+          persistentVolumeClaim:
+            claimName: test-persistent-volume-claim
+      containers:
+        - name:  worker-controller
+          image: mozafaq/test-app-worker-controller:1.4
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9031
+          livenessProbe:
+            httpGet:
+              path: /status
+              port: 9031
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+          volumeMounts:
+            - name: persistent-storage-1
+              mountPath: /data
+              subPath: persistent
+

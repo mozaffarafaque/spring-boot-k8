@@ -1,6 +1,10 @@
 package com.mozafaq.test.springboot.appgateway;
 
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.mozafaq.test.springboot.utilslib.TestClass;
@@ -17,8 +21,46 @@ public class ComputeController {
     private final AtomicLong counter = new AtomicLong();
     private final AtomicLong concurrencyCounter = new AtomicLong();
 
+    private static String FILE_PATH = System.getenv("PERSISTENT_PATH");
 
-    @GetMapping("/app-name")
+    @GetMapping("/worker-controller/app-name")
+    public String appNamePath() {
+        LOG.info("Request for Application name with Path");
+        return appName();
+    }
+
+    @GetMapping("/worker-controller/status")
+    public String getStatusPath() {
+        LOG.info("Request for status query with Path");
+        return getStatus();
+    }
+
+    @GetMapping("/log-app-access")
+    public String logAppAccessPath() {
+        LOG.info("Request for app access with Path");
+        return logAppAccess();
+    }
+
+
+    @GetMapping("/worker-controller/log-app-access")
+    public String logAppAccess() {
+        String uuid = UUID.randomUUID().toString();
+        try {
+            Files.createFile(Path.of(FILE_PATH + "/" + uuid));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return uuid;
+    }
+
+
+    @GetMapping("/worker-controller/calculate-fibonacci")
+    public long calculateFibonacciPath(@RequestParam(value = "number", defaultValue = "1") int number) {
+        LOG.info("Request for calculating the fibonacci of (with Path) " + number );
+        return calculateFibonacci(number);
+    }
+
+        @GetMapping("/app-name")
     public String appName() {
         LOG.info("Request for Application name");
         return "app-worker-controller\n";

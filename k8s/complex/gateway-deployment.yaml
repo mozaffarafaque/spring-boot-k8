@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-app-gateway
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      component: app-gateway
+  template:
+    metadata:
+      labels:
+        component: app-gateway
+    spec:
+      containers:
+        - name:  app-gateway
+          image: mozafaq/test-app-gateway:1.4
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9011
+          livenessProbe:
+            httpGet:
+              path: /status
+              port: 9011
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+          env:
+            - name: WORKER_COMPUTE_HOST
+              value: worker-compute-cluster-ip-service
+            - name: WORKER_COMPUTE_PORT
+              value: '9021'
+            - name: WORKER_CONTROLLER_HOST
+              value: worker-controller-cluster-ip-service
+            - name: WORKER_CONTROLLER_PORT
+              value: '9031'
+
