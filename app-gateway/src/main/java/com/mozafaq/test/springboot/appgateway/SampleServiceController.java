@@ -123,7 +123,6 @@ public class SampleServiceController {
         HttpClient client = new HttpClient(COMPUTE_WORKER_URL + "/calculate-fibonacci");
         String value = client.performGet(Collections.singletonMap("number", String.valueOf(number)));
         return Long.parseLong(value);
-
     }
 
     @GetMapping("/sum")

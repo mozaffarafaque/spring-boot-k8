@@ -1,0 +1,11 @@
+FROM mozafaq/spark-k8s:1.0 
+
+ARG JAR_FILE=app-worker-compute/build/libs/app-worker-compute-1.0.jar
+
+COPY ${JAR_FILE} /app.jar
+
+
+RUN java -version
+
+ENTRYPOINT ["java", "-DLOGS=/tmp/", "-jar","/app.jar", "8011"]
+
