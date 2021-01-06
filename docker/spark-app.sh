@@ -4,11 +4,9 @@ echo "Dir name $DIR"
 
 set -e
 
-APP_IMAGE="sample-server-spark-k8:1.6"
+APP_IMAGE="spark-app-k8s:1.1"
 
-docker build -f app-sample-spark-k8s.docker -t mozafaq/${APP_IMAGE} ..
-
-
+docker build -f spark-app.docker -t mozafaq/${APP_IMAGE} ..
 
 if [ $# == 1  ]
 then
@@ -18,6 +16,5 @@ then
         docker push mozafaq/${APP_IMAGE}
     fi
 fi
-  
-echo "Done...."
 
+echo "Done...."

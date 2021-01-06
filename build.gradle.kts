@@ -59,6 +59,8 @@ subprojects {
             dependency("org.mockito:mockito-core:3.1.0")
             dependency("net.sourceforge.jtds:jtds:1.3.1")
             dependency("org.testng:testng:6.9.10")
+            dependency("org.apache.spark:spark-core_2.12:3.0.1")
+            dependency("org.apache.spark:spark-sql_2.12:3.0.1")
         }
     }
 

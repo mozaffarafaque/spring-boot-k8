@@ -1,0 +1,9 @@
+FROM mozafaq/spark-on-k8s:3.1
+
+ARG JAR_FILE=spark-app/build/libs/spark-app-1.0.jar
+
+COPY ${JAR_FILE} /app.jar
+
+
+RUN java -version
+

@@ -1,4 +1,4 @@
-FROM mozafaq/spark-k8s:1.0 
+FROM mozafaq/spark-k8s:1.1 
 
 ARG JAR_FILE=app-worker-compute/build/libs/app-worker-compute-1.0.jar
 
