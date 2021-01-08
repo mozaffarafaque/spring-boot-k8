@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-master-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: spark-master-server
+  template:
+    metadata:
+      labels:
+        component: spark-master-server
+    spec:
+      containers:
+        - name:  spark-master-server
+          image: mozafaq/spark-master-k8s:3.1.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9011

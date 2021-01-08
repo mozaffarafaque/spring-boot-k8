@@ -1,0 +1,18 @@
+FROM mozafaq/spark-on-k8s:3.1
+
+ARG CURRENT_USER=185
+
+USER root
+
+RUN mkdir -p /opt/spark/logs
+
+#RUN chown  ${CURRENT_USER}:${CURRENT_USER}  /opt/spark/logs
+
+COPY ./master-start-with-wait.sh /opt/spark/sbin/
+
+#USER ${CURRENT_USER}
+
+
+#ENV USER=${CURRENT_USER}
+
+ENTRYPOINT ["/opt/spark/sbin/master-start-with-wait.sh"]
