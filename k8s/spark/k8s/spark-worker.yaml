@@ -6,11 +6,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      component: spark-worker-instance
+      component: spark-worker
   template:
     metadata:
       labels:
-        component: spark-worker-instance
+        component: spark-worker
     spec:
       containers:
         - name:  spark-worker-server

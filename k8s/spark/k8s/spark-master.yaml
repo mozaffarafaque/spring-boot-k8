@@ -6,11 +6,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      component: spark-master-server
+      component: spark-master
   template:
     metadata:
       labels:
-        component: spark-master-server
+        component: spark-master
     spec:
       containers:
         - name:  spark-master-server
