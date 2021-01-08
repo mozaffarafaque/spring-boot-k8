@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: spark-worker-instance
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       component: spark-worker
