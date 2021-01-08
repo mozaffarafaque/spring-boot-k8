@@ -8,7 +8,7 @@ RUN mkdir -p /opt/spark/logs
 
 #RUN chown  ${CURRENT_USER}:${CURRENT_USER}  /opt/spark/logs
 
-COPY ./master-start-with-wait.sh /opt/spark/sbin/
+COPY ./worker-start-with-wait.sh /opt/spark/sbin/
 
 #USER ${CURRENT_USER}
 
