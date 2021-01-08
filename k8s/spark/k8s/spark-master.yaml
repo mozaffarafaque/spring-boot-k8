@@ -13,7 +13,7 @@ spec:
         component: spark-master
     spec:
       containers:
-        - name:  spark-master
+        - name: spark-master
           image: mozafaq/spark-master-k8s:3.1.0
           imagePullPolicy: Always
           ports:
