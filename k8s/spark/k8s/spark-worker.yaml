@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: spark-worker-server
+  name: spark-worker-instance
 spec:
   replicas: 1
   selector:
     matchLabels:
-      component: spark-worker-server
+      component: spark-worker-instance
   template:
     metadata:
       labels:
-        component: spark-worker-server
+        component: spark-worker-instance
     spec:
       containers:
         - name:  spark-worker-server
