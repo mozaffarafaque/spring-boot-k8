@@ -6,7 +6,7 @@ USER root
 
 RUN mkdir -p /opt/spark/logs
 
-RUN apt-get install -y iputils-ping curl
+RUN apt-get install -y iputils-ping curl less
 
 COPY ./master-start-with-wait.sh /opt/spark/sbin/
 
