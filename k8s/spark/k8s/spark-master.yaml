@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: spark-master-server
+  name: spark-master
 spec:
   replicas: 1
   selector:
@@ -13,7 +13,7 @@ spec:
         component: spark-master
     spec:
       containers:
-        - name:  spark-master-server
+        - name:  spark-master
           image: mozafaq/spark-master-k8s:3.1.0
           imagePullPolicy: Always
           ports:
