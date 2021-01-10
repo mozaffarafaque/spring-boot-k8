@@ -18,10 +18,13 @@ spec:
   ports:
     - port: 9011
       targetPort: 9011
+      name: spark-master
     - port: 9012
       targetPort: 9012
+      name: spark-ui
     - port: 9013
       targetPort: 9013
+      name: master-server
   selector:
     component: spark-master
 
