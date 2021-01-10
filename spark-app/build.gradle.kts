@@ -1,10 +1,9 @@
 
-description = "Spring Application."
+description = "Spark application."
 
 plugins {
     id("java")
     id("idea")
-    id("org.springframework.boot") version "2.3.0.RELEASE"
 }
 
 dependencies {
@@ -12,19 +11,21 @@ dependencies {
 
     implementation("org.apache.spark:spark-core_2.12")
     implementation("org.apache.spark:spark-sql_2.12")
-
 }
 
 val jar by tasks.getting(Jar::class) {
-    manifest {
-        attributes["Main-Class"] = "com.mozafaq.test.sparkapp.Application"
-    }
 
-    from(sourceSets.main.get().output)
-    dependsOn(configurations.runtimeClasspath)
-    from({
-        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
-    })
+    isZip64 = true
+    manifest {
+        attributes["Implementation-Title"] = "Spark exce"
+        attributes["Implementation-Version"] = version
+        attributes["Main-Class"] = "com.mozafaq.test.sparkapp.JobRunner"
+    }
+    from(configurations.runtimeClasspath.get().map({ if (it.isDirectory) it else zipTree(it) }))
+
+    exclude("META-INF/*.RSA")
+    exclude("META-INF/*.SF")
+    exclude("META-INF/*.DSA")
 }
 
 fun getRunVmArgs(property: String, defaultValue: String): String {
@@ -38,26 +39,4 @@ fun getVmArgs(): List<String> {
             "-Dvm.args=true",
             "-Dapplication.environment=${env}"
     )
-}
-
-task<Exec>("start") {
-    dependsOn( "build")
-    group = "Execution"
-    description = "Start the application post running build and using generated jar file."
-    var comdArgs = mutableListOf("java")
-    comdArgs.addAll(getVmArgs())
-    comdArgs.add("-jar")
-    comdArgs.add(jar.archiveFile.get().toString())
-    commandLine(comdArgs)
-}
-
-task<Exec>("startFast") {
-    dependsOn(jar)
-    group = "Execution"
-    description = "Start the application using last generated jar file."
-    var comdArgs = mutableListOf("java")
-    comdArgs.addAll(getVmArgs())
-    comdArgs.add("-jar")
-    comdArgs.add(jar.archiveFile.get().toString())
-    commandLine(comdArgs)
 }

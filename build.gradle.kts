@@ -61,6 +61,7 @@ subprojects {
             dependency("org.testng:testng:6.9.10")
             dependency("org.apache.spark:spark-core_2.12:3.0.1")
             dependency("org.apache.spark:spark-sql_2.12:3.0.1")
+            dependency("org.testng:testng:7.1.0")
         }
     }
 
@@ -74,6 +75,7 @@ subprojects {
         testImplementation("org.mockito", "mockito-junit-jupiter")
         testImplementation("org.junit.jupiter", "junit-jupiter")
         testImplementation(group = "org.mockito", name = "mockito-core")
+        testImplementation("org.testng:testng")
 
         implementation(kotlin("stdlib-jdk8"))
     }

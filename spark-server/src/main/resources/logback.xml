@@ -2,7 +2,7 @@
 <!DOCTYPE xml>
 <configuration debug="true">
     <appender name="LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/tmp/gateway-app.log</file>
+        <file>/tmp/spark-server.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>/tmp/%d{yyyyMMdd}/gateway-app-%d{yyyyMMdd}.log.gz</fileNamePattern>
             <maxHistory>1</maxHistory>

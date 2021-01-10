@@ -13,10 +13,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-autoconfigure")
-
-    implementation("org.apache.spark:spark-core_2.12")
-    implementation("org.apache.spark:spark-sql_2.12")
-
 }
 
 val jar by tasks.getting(Jar::class) {

@@ -5,10 +5,12 @@ ARG CURRENT_USER=185
 USER root
 
 RUN mkdir -p /opt/spark/logs
+RUN mkdir -p /app/
 
 RUN apt-get install -y iputils-ping curl less
 
 
 COPY ./worker-start-with-wait.sh /opt/spark/sbin/
+COPY ./tmp/spark-app.jar /app/
 
 ENTRYPOINT ["/opt/spark/sbin/worker-start-with-wait.sh"]
