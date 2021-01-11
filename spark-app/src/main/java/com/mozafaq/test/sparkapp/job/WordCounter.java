@@ -25,7 +25,7 @@ public class WordCounter {
         SparkConf conf = new SparkConf().setAppName(jobId).setMaster(url);
         JavaSparkContext sparkContext = new JavaSparkContext(conf);
 
-        sparkContext.sc().addSparkListener(new JobTracker(jobId,  JobTracker.DEFAULT_ENDPOINT));
+        sparkContext.sc().addSparkListener(new JobTracker());
 
         System.out.println("Text file path: " + textFilePath);
         JavaRDD<String> lines = sparkContext.textFile(textFilePath);

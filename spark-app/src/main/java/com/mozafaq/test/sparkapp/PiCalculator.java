@@ -21,7 +21,8 @@ public class PiCalculator {
 
         JavaSparkContext jsc = new JavaSparkContext(spark.sparkContext());
 
-        jsc.sc().addSparkListener(new JobTracker(args[0], JobTracker.DEFAULT_ENDPOINT));
+
+        jsc.sc().addSparkListener(new JobTracker());
         int slices = (args.length == 2) ? Integer.parseInt(args[1]) : 2;
         int n = 100000 * slices;
         List<Integer> l = new ArrayList<>(n);
