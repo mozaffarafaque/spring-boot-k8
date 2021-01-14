@@ -5,6 +5,7 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.sql.SparkSession;
 import scala.Tuple2;
 
 import java.util.*;
@@ -21,14 +22,21 @@ public class WordCounter {
         String jobId = Optional.ofNullable(clientId).orElse(UUID.randomUUID().toString());
         String textFilePath = fileLocation;
         int top = topN;
+//
+//        SparkConf conf = new SparkConf().setAppName(jobId).setMaster(url);
+//        JavaSparkContext sparkContext = new JavaSparkContext(conf);
+//
+//        sparkContext.sc().addSparkListener(new JobTracker());
 
-        SparkConf conf = new SparkConf().setAppName(jobId).setMaster(url);
-        JavaSparkContext sparkContext = new JavaSparkContext(conf);
 
-        sparkContext.sc().addSparkListener(new JobTracker());
+        SparkSession spark = SparkSession
+                .builder()
+                .appName(jobId)
+                .getOrCreate();
+        JavaSparkContext jsc = new JavaSparkContext(spark.sparkContext());
 
         System.out.println("Text file path: " + textFilePath);
-        JavaRDD<String> lines = sparkContext.textFile(textFilePath);
+        JavaRDD<String> lines = jsc.textFile(textFilePath);
 
         JavaRDD<String> tokenizedLines =
                 lines.filter(e -> e != null)

@@ -1,6 +1,8 @@
 package com.mozafaq.test.sparkapp.infra;
 
 import com.mozafaq.test.springboot.utilslib.CommandExec;
+import com.mozafaq.test.springboot.utilslib.CommandExecutor;
+import com.mozafaq.test.springboot.utilslib.CommandResponse;
 import org.apache.spark.scheduler.*;
 
 import java.io.UnsupportedEncodingException;
@@ -130,14 +132,18 @@ public class JobTracker extends SparkListener {
         }
 
         CommandExec exec = new CommandExec();
-        int statusCode = exec.executeCommand(new String[]{"curl", "-XGET", "--max-time", "15",
-                         remoteEndpoint + "?" +
-                                "jobId=" + encode(this.jobId) +
-                                "&eventName=" + encode(event) +
-                                "&progress=" + encode(progress.toString())
-                },
-                10_000);
+        String[] args = new String[]{"curl", "-XGET", "--max-time", "15",
+                remoteEndpoint + "?" +
+                        "jobId=" + encode(this.jobId) +
+                        "&eventName=" + encode(event) +
+                        "&progress=" + encode(progress.toString())
+        };
+        //int statusCode = exec.executeCommand( args, 10_000);
 
+        CommandExecutor commandExecutor = new CommandExecutor();
+        CommandResponse response = commandExecutor.execute(args, null, 10_000);
+
+        int statusCode = response.getExitStatus();
         System.out.println("INFO ["  + new Date().toInstant() + "][" + event + "] " + progress + ", Status code: " + statusCode);
     }
 

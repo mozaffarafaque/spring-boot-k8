@@ -1,6 +1,8 @@
 package com.mozafaq.test.spark.appgateway.controller;
 
-import com.mozafaq.test.springboot.utilslib.CommandExec;
+import com.mozafaq.test.spark.appgateway.Launcher;
+import com.mozafaq.test.spark.appgateway.LauncherRequest;
+import com.mozafaq.test.springboot.utilslib.CommandExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,7 +38,6 @@ public class JobController {
                              @RequestParam(name = "deployMode") String deployMode,
                              @RequestParam(name = "masterEndpoint") String masterEndPoint) {
 
-        CommandExec exec = new CommandExec();
 
         int count1 = 4;
         String[] args = getBaseArguments(count1, clientId, deployMode, masterEndPoint, "com.mozafaq.test.sparkapp.PiCalculator");
@@ -44,7 +45,31 @@ public class JobController {
         args[args.length - count1 + 1] = String.valueOf(count);
         args[args.length - count1 + 2] = ">>";
         args[args.length - count1 + 3] = "/tmp/job-stdout.txt";
-        return  exec.executeCommand(args, 20_000);
+
+        CommandExecutor exec = new CommandExecutor();
+
+        LauncherRequest request = getBaseLaunchRequest(clientId, deployMode, masterEndPoint, "com.mozafaq.test.sparkapp.PiCalculator");
+        request.addArguments(clientId).addArguments(String.valueOf(count));
+
+        Launcher launcher = new Launcher();
+        int status = launcher.launchSparkJob(request);
+        LOG.info("Status for " + clientId + " " + status);
+        return status;
+    }
+
+    private LauncherRequest getBaseLaunchRequest(String clientId,
+                                                 String deployMode,
+                                                 String endpoint,
+                                                 String mainClass) {
+
+        return new LauncherRequest()
+                .setDeployMode(deployMode)
+                .setMain(mainClass)
+                .setJobId(clientId)
+                .setMaster(endpoint)
+                .addConfigurations("spark.executor.instances", "2")
+                .addConfigurations("spark.extraListeners", "com.mozafaq.test.sparkapp.infra.JobTracker")
+                .addConfigurations("spark.driver.extraJavaOptions", "-Dspark.job.id=" + clientId);
     }
 
 
@@ -87,23 +112,32 @@ public class JobController {
     public int runSparkWordCount(@RequestParam(name = "fileLocation") String fileLocation,
                                  @RequestParam(name = "clientId") String clientId,
                                  @RequestParam(name = "deployMode") String deployMode,
-                                 @RequestParam(name = "masterEndpoint") String masterEndPoint) {
+                                 @RequestParam(name = "masterEndpoint") String masterEndpoint) {
 
         int count = 6;
         String[] args = getBaseArguments(count,
                 clientId,
                 deployMode,
-                masterEndPoint,
+                masterEndpoint,
                 "com.mozafaq.test.sparkapp.JobRunner");
-        args[args.length - count + 0] = masterEndPoint;
+
+        args[args.length - count + 0] = masterEndpoint;
         args[args.length - count + 1] = fileLocation;
         args[args.length - count + 2] = clientId;
         args[args.length - count + 3] = "25";
         args[args.length - count + 4] = ">>";
         args[args.length - count + 5] = "/tmp/job-stdout.txt";
 
-        CommandExec exec = new CommandExec();
-        return exec.executeCommand(args, 20_000);
+
+        LauncherRequest request = getBaseLaunchRequest(clientId, deployMode, masterEndpoint, "com.mozafaq.test.sparkapp.JobRunner");
+        request.addArguments(masterEndpoint)
+                .addArguments(fileLocation)
+                .addArguments(clientId)
+                .addArguments("25");
+        Launcher launcher = new Launcher();
+        int status = launcher.launchSparkJob(request);
+        LOG.info("Status for " + clientId + " " + status);
+        return status;
     }
 
     @GetMapping("/progress-event")
@@ -111,6 +145,7 @@ public class JobController {
                                  @RequestParam(name = "eventName") String eventName,
                                  @RequestParam(name = "progress")String progress) {
 
-        LOG.info("Job Id: " + jobId + ", EventName: " + eventName + ", Progress Status: " + progress);
+        LOG.info("Job Id: " + jobId + ", EventName: " + eventName +
+                ", Progress Status: " + progress);
     }
 }
