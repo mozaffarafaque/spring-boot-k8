@@ -12,7 +12,7 @@ import java.util.Date;
 
 public class JobTracker extends SparkListener {
 
-    public static String DEFAULT_SERVER = "http://localhost:9013/progress-event";
+    public static String DEFAULT_SERVER = "http://spark-master-server:9013/progress-event";
     public static String JOBID_VM = "spark.job.id";
     public static String SERVER_END_POINT = "event.notification.endpoint";
 

@@ -33,7 +33,7 @@ public class WordCounter {
 //            jsc.sc().hadoopConfiguration().set("fs.s3a.access.key","...");
 //            jsc.sc().hadoopConfiguration().set("fs.s3a.secret.key","...");
 //        }
-        
+
         System.out.println("Text file path: " + textFilePath);
         JavaRDD<String> lines = jsc.textFile(textFilePath);
 
