@@ -22,12 +22,6 @@ public class WordCounter {
         String jobId = Optional.ofNullable(clientId).orElse(UUID.randomUUID().toString());
         String textFilePath = fileLocation;
         int top = topN;
-//
-//        SparkConf conf = new SparkConf().setAppName(jobId).setMaster(url);
-//        JavaSparkContext sparkContext = new JavaSparkContext(conf);
-//
-//        sparkContext.sc().addSparkListener(new JobTracker());
-
 
         SparkSession spark = SparkSession
                 .builder()
@@ -35,6 +29,11 @@ public class WordCounter {
                 .getOrCreate();
         JavaSparkContext jsc = new JavaSparkContext(spark.sparkContext());
 
+//        if (fileLocation.startsWith("s3a:")) {
+//            jsc.sc().hadoopConfiguration().set("fs.s3a.access.key","...");
+//            jsc.sc().hadoopConfiguration().set("fs.s3a.secret.key","...");
+//        }
+        
         System.out.println("Text file path: " + textFilePath);
         JavaRDD<String> lines = jsc.textFile(textFilePath);
 
