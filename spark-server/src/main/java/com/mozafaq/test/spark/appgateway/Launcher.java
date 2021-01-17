@@ -24,10 +24,8 @@ public class Launcher {
         Path out;
         Path err;
         try {
-
-            out = Files.createTempFile("stdout", "txt");
-            err = Files.createTempFile("stderr", "txt");
-
+            out = Files.createTempFile("stdout-" + launcherRequest.getJobId(), ".txt");
+            err = Files.createTempFile("stderr-" + launcherRequest.getJobId(), ".txt");
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
@@ -38,6 +36,7 @@ public class Launcher {
                 .setDeployMode(launcherRequest.getDeployMode())
                 .setMaster(launcherRequest.getMaster())
                 .setAppName(launcherRequest.getJobId())
+                .setMainClass(launcherRequest.getMain())
                 .redirectError(err.toFile())
                 .redirectOutput(out.toFile())
                 .addAppArgs(launcherRequest.getArguments()
