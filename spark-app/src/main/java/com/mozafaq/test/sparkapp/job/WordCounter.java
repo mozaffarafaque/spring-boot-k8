@@ -1,6 +1,7 @@
 package com.mozafaq.test.sparkapp.job;
 
 import com.mozafaq.test.sparkapp.infra.JobTracker;
+import com.mozafaq.test.springboot.utilslib.PropertiesReader;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -17,7 +18,7 @@ public class WordCounter {
     private static Comparator<Tuple2<Integer, Integer>> COMPARE_TUPLE = (c1, c2) -> c1._1 - c2._2;
 
     private Comparator<Tuple2<Integer, Integer>> comparator = new TupleComparable();
-    public void runJob(String url, int topN, String fileLocation, String clientId) {
+    public void runJob(int topN, String fileLocation, String clientId) {
 
         String jobId = Optional.ofNullable(clientId).orElse(UUID.randomUUID().toString());
         String textFilePath = fileLocation;
@@ -29,10 +30,22 @@ public class WordCounter {
                 .getOrCreate();
         JavaSparkContext jsc = new JavaSparkContext(spark.sparkContext());
 
-//        if (fileLocation.startsWith("s3a:")) {
-//            jsc.sc().hadoopConfiguration().set("fs.s3a.access.key","...");
-//            jsc.sc().hadoopConfiguration().set("fs.s3a.secret.key","...");
-//        }
+        if (fileLocation.startsWith("s3a:")) {
+
+            System.out.println("Setting credentials.....");
+
+//            PropertiesReader propertiesReader = new PropertiesReader();
+//            Properties properties = propertiesReader.getProperties("/etc/secrets/secret.properties");
+
+            Properties properties = new Properties();
+            properties.put("access.key", System.getenv("AWS_ACCESS_KEY"));
+            properties.put("secret.key", System.getenv("AWS_SECRET_KEY"));
+
+            jsc.sc().hadoopConfiguration().set("fs.s3a.access.key",
+                    properties.getProperty("access.key"));
+            jsc.sc().hadoopConfiguration().set("fs.s3a.secret.key",
+                    properties.getProperty("secret.key"));
+        }
 
         System.out.println("Text file path: " + textFilePath);
         JavaRDD<String> lines = jsc.textFile(textFilePath);
@@ -45,6 +58,7 @@ public class WordCounter {
                         .flatMap(e -> e.iterator())
                         .filter(e -> !e.isEmpty());
 
+        tokenizedLines = tokenizedLines.distinct();
         JavaRDD<Tuple2<Integer, String>> hashTuples =
                 tokenizedLines.filter(e -> e != null)
                         .map( e -> Tuple2.apply(e.hashCode(), e));
@@ -64,6 +78,8 @@ public class WordCounter {
                         .map(e -> e.toString())
                         .collect(Collectors.joining("\n"))
         );
+
+        spark.stop();
     }
 
 }

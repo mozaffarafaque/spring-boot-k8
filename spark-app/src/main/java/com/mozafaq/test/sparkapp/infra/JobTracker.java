@@ -151,7 +151,6 @@ public class JobTracker extends SparkListener {
         this(System.getProperty(JOBID_VM), System.getProperty(SERVER_END_POINT));
     }
 
-
     private String encode(String value) {
         try {
             String encoded = URLEncoder.encode(value, StandardCharsets.UTF_8.toString());

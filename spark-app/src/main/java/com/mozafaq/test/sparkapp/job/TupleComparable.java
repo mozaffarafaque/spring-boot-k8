@@ -5,7 +5,7 @@ import scala.Tuple2;
 
 import java.util.Comparator;
 
-class TupleComparable implements Comparator<Tuple2<Integer, Integer>>, Serializable {
+public class TupleComparable implements Comparator<Tuple2<Integer, Integer>>, Serializable {
 
     @Override
     public int compare(Tuple2<Integer, Integer> o1, Tuple2<Integer, Integer> o2) {

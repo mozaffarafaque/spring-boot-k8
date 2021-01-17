@@ -6,12 +6,12 @@ public class JobRunner {
 
     public static void main(String[] args) {
 
-        if (args.length != 4) {
-            throw new IllegalArgumentException("No. of arguments must be 4 " +
-                    "(url ,file location, clientId, top)");
+        if (args.length != 3) {
+            throw new IllegalArgumentException("No. of arguments must be 3 " +
+                    "(file location, clientId, top)");
         }
         WordCounter wordCounter = new WordCounter();
-        wordCounter.runJob(args[0], Integer.parseInt(args[3]), args[1], args[2]);
+        wordCounter.runJob(Integer.parseInt(args[2]), args[0], args[1]);
 
         System.out.println(".....Job Submitted.....");
     }
