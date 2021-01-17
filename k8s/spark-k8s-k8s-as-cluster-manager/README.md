@@ -61,16 +61,17 @@ kubectl create secret generic aws-secret \
 ./bin/spark-submit \
     --master k8s://https://172.31.80.10:6443 \
     --deploy-mode cluster \
-    --name spark-word-count-2mb-3 \
+    --name spark-word-count-2mb-4 \
     --class com.mozafaq.test.sparkapp.JobRunner \
     --conf spark.executor.instances=2 \
     --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
-    --conf spark.kubernetes.container.image.pullPolicy=Always \
+    --conf spark.kubernetes.container.image.pullPolicy=IfNotPresent \
     --conf spark.kubernetes.container.image=mozafaq/spark-k8s-as-cm:3.1.2 \
     --conf spark.kubernetes.driver.secretKeyRef.AWS_ACCESS_KEY=aws-secret:key \
+    --conf spark.kubernetes.driver.secretKeyRef.AWS_SECRET_KEY=aws-secret:secret \
+    --conf spark.kubernetes.executor.secretKeyRef.AWS_ACCESS_KEY=aws-secret:key \
     --conf spark.kubernetes.executor.secretKeyRef.AWS_SECRET_KEY=aws-secret:secret \
-    --conf spark.kubernetes.driver.secretKeyRef.AWS_ACCESS_KEY=aws-secret:key \
-    --conf spark.kubernetes.executor.secretKeyRef.AWS_SECRET_KEY=aws-secret:secret \
+    --conf spark.driver.extraJavaOptions=-Dspark.job.id=word-count-xyz \
+    --conf spark.extraListeners=com.mozafaq.test.sparkapp.infra.JobTracker \
     local:///app/spark-app.jar s3a://bd-expl-data/tmp/two-mb-sample.txt word-count-1 25
-
 ```
