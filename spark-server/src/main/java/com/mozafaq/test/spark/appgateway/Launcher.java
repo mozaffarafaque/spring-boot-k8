@@ -1,5 +1,6 @@
 package com.mozafaq.test.spark.appgateway;
 
+import org.apache.spark.launcher.SparkAppHandle;
 import org.apache.spark.launcher.SparkLauncher;
 
 import java.io.File;
@@ -31,7 +32,7 @@ public class Launcher {
         }
 
         SparkLauncher launcher = new SparkLauncher()
-                .setSparkHome(SPARK_HOME)
+               // .setSparkHome(SPARK_HOME)
                 .setAppResource(APP_JAR)
                 .setDeployMode(launcherRequest.getDeployMode())
                 .setMaster(launcherRequest.getMaster())
@@ -49,9 +50,11 @@ public class Launcher {
 
         Process process = null;
         try {
-            process = launcher.launch();
+
+             //SparkAppHandle sparkAppHandle = launcher.startApplication();
+             process  =launcher.launch();
             boolean status = process.waitFor(launcherRequest.getTimeoutMillis(), TimeUnit.MILLISECONDS);
-            return status ? 0 : 1;
+             return status ? 0 : 1;
         } catch (IOException | InterruptedException e) {
             throw new IllegalStateException(e);
         }

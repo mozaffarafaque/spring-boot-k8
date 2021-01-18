@@ -22,12 +22,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: spark-task-server-ip
+  name: spark-master-server
 
 spec:
   type: ClusterIP
   ports:
-    - port: 9113
+    - port: 9013
       targetPort: 9013
       name: spark-task-server
   selector:
