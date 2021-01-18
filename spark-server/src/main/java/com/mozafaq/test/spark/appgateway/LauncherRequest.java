@@ -1,6 +1,5 @@
 package com.mozafaq.test.spark.appgateway;
 
-import com.mozafaq.test.spark.appgateway.model.SparkJobRequest;
 
 import java.util.*;
 
@@ -10,6 +9,8 @@ public class LauncherRequest {
     private String master;
     private String jobId;
     private String deployMode;
+
+    private long timeoutMillis = 20_000l;
 
     private Map<String, String> configurations = new HashMap<>();
     private List<String> arguments = new ArrayList<>();
@@ -70,5 +71,13 @@ public class LauncherRequest {
 
     public List<String> getArguments() {
         return  Collections.unmodifiableList(arguments);
+    }
+
+    public long getTimeoutMillis() {
+        return timeoutMillis;
+    }
+
+    public void setTimeoutMillis(long timeoutMillis) {
+        this.timeoutMillis = timeoutMillis;
     }
 }

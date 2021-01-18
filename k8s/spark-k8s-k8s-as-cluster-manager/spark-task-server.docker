@@ -1,0 +1,9 @@
+FROM  openjdk:11
+
+RUN apt-get install -y iputils-ping curl
+
+RUN mkdir -p /app
+
+COPY ./tmp/spark-task-server.jar /app/
+
+ENTRYPOINT ["java",  "-jar",  "/app/spark-task-server.jar"]

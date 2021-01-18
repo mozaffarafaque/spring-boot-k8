@@ -50,7 +50,7 @@ public class Launcher {
         Process process = null;
         try {
             process = launcher.launch();
-            boolean status = process.waitFor(20_000, TimeUnit.MILLISECONDS);
+            boolean status = process.waitFor(launcherRequest.getTimeoutMillis(), TimeUnit.MILLISECONDS);
             return status ? 0 : 1;
         } catch (IOException | InterruptedException e) {
             throw new IllegalStateException(e);

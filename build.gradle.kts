@@ -66,8 +66,6 @@ subprojects {
             dependency("org.apache.hadoop:hadoop-client:3.2.0")
             dependency("com.amazonaws:aws-java-sdk:1.11.900")
             dependency("org.apache.spark:spark-launcher_2.12:3.0.1")
-
-
         }
     }
 
