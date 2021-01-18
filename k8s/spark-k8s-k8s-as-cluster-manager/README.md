@@ -75,3 +75,32 @@ kubectl create secret generic aws-secret \
     --conf spark.extraListeners=com.mozafaq.test.sparkapp.infra.JobTracker \
     local:///app/spark-app.jar s3a://bd-expl-data/tmp/two-mb-sample.txt word-count-1 25
 ```
+
+### Running service invocation
+
+```
+curl -H "Content-Type: application/json" -X POST "http://spark-master-server:9013/launch-spark-app" -d '{
+  "jobId": "<jobname>",
+  "masterEndpoint": "k8s://https://172.31.80.10:6443",
+  "mainClass": "com.mozafaq.test.sparkapp.JobRunner",
+  "deployMode": "cluster",
+  "confs": {
+    "spark.executor.instances" : "1",
+    "spark.extraListeners": "com.mozafaq.test.sparkapp.infra.JobTracker",
+    "spark.kubernetes.authenticate.driver.serviceAccountName": "spark",
+    "spark.kubernetes.container.image.pullPolicy": "IfNotPresent",
+    "spark.kubernetes.container.image": "mozafaq/spark-k8s-as-cm:3.1.2",
+    "spark.kubernetes.driver.secretKeyRef.AWS_ACCESS_KEY": "aws-secret:key",
+    "spark.kubernetes.driver.secretKeyRef.AWS_SECRET_KEY": "aws-secret:secret",
+    "spark.kubernetes.executor.secretKeyRef.AWS_ACCESS_KEY": "aws-secret:key",
+    "spark.kubernetes.executor.secretKeyRef.AWS_SECRET_KEY": "aws-secret:secret",
+    "spark.driver.extraJavaOptions": "-Dspark.job.id=<jobname>",
+    "spark.kubernetes.driver.limit.cores": "1",
+    "spark.kubernetes.executor.limit.cores": "1",
+    "spark.driver.memory": "1g",
+    "spark.executor.memory": "1g"
+  },
+  "arguments": ["s3a://<BUCKET-NAME>/apth/<bject-name>", "<jobname>",  "25"]
+}'
+
+```
