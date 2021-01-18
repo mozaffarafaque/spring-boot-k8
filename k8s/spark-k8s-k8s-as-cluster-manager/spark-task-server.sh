@@ -15,10 +15,13 @@ mkdir -p tmp
 
 cp ../../spark-server/build/libs/spark-server-1.0.jar ./tmp/spark-task-server.jar
 
+cp -R ../../../spark-home ./tmp/spark-home
+
 docker build -f spark-task-server.docker -t mozafaq/${APP_IMAGE} .
 
 rm ./tmp/spark-task-server.jar
 
+rm -rf ./tmp/spark-home
 
 if [ $# == 1  ]
 then

@@ -1,8 +1,6 @@
 package com.mozafaq.test.sparkapp.job;
 
-import com.mozafaq.test.sparkapp.infra.JobTracker;
-import com.mozafaq.test.springboot.utilslib.PropertiesReader;
-import org.apache.spark.SparkConf;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -33,10 +31,6 @@ public class WordCounter {
         if (fileLocation.startsWith("s3a:")) {
 
             System.out.println("Setting credentials.....");
-
-//            PropertiesReader propertiesReader = new PropertiesReader();
-//            Properties properties = propertiesReader.getProperties("/etc/secrets/secret.properties");
-
             Properties properties = new Properties();
             properties.put("access.key", System.getenv("AWS_ACCESS_KEY"));
             properties.put("secret.key", System.getenv("AWS_SECRET_KEY"));

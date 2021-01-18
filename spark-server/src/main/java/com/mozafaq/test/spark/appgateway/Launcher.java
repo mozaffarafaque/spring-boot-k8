@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class Launcher {
 
     private static final String SPARK_HOME = "/opt/spark";
-    private static final String APP_JAR = "/app/spark-app.jar";
+    private static final String APP_JAR = "local:///app/spark-app.jar";
 
     public int launchSparkJob(LauncherRequest launcherRequest) {
 
@@ -32,7 +32,7 @@ public class Launcher {
         }
 
         SparkLauncher launcher = new SparkLauncher()
-               // .setSparkHome(SPARK_HOME)
+                .setSparkHome(SPARK_HOME)
                 .setAppResource(APP_JAR)
                 .setDeployMode(launcherRequest.getDeployMode())
                 .setMaster(launcherRequest.getMaster())
@@ -48,13 +48,14 @@ public class Launcher {
                 .stream()
                 .forEach(e -> launcher.setConf(e.getKey(), e.getValue()));
 
-        Process process = null;
         try {
 
-             //SparkAppHandle sparkAppHandle = launcher.startApplication();
-             process  =launcher.launch();
+//          SparkAppHandle sparkAppHandle = launcher.startApplication();
+//          return 0;
+            Process process = launcher.launch();
             boolean status = process.waitFor(launcherRequest.getTimeoutMillis(), TimeUnit.MILLISECONDS);
-             return status ? 0 : 1;
+            return status ? 0 : 1;
+
         } catch (IOException | InterruptedException e) {
             throw new IllegalStateException(e);
         }

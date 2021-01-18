@@ -12,6 +12,7 @@ spec:
       labels:
         component: spark-task-server
     spec:
+      serviceAccountName: spark
       containers:
         - name: spark-task-server
           image: mozafaq/spark-task-server:1.1

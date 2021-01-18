@@ -8,4 +8,7 @@ RUN mkdir -p /app
 
 COPY ./tmp/spark-task-server.jar /app/
 
+COPY ./tmp/spark-home/bin /opt/spark/bin
+COPY ./tmp/spark-home/assembly /opt/spark/assembly
+
 ENTRYPOINT ["java",  "-jar",  "/app/spark-task-server.jar"]
