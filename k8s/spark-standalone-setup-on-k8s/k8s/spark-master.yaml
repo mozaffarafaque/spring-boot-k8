@@ -22,7 +22,7 @@ spec:
             - containerPort: 9013
           resources:
             limits:
-              memory: 512Mi
+              memory: 3Gi
               cpu: 1000m
             requests:
               memory: 2Gi

@@ -23,10 +23,10 @@ spec:
             - containerPort: 9021
           resources:
             limits:
-              memory: 512Mi
+              memory: 13Gi
               cpu: 3200m
             requests:
-              memory: 2Gi
+              memory: 512Mi
               cpu: 1500m
           env:
             - name: AWS_ACCESS_KEY
