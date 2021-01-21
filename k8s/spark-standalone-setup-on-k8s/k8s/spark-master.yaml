@@ -20,3 +20,15 @@ spec:
             - containerPort: 9011
             - containerPort: 9012
             - containerPort: 9013
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: 1000m
+            requests:
+              memory: 2Gi
+              cpu: 1500m
+          env:
+            - name: AWS_ACCESS_KEY
+              value: "<SECRET>"
+            - name: AWS_SECRET_KEY
+              value: "<SECRET>"

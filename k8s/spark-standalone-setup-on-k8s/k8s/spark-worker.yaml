@@ -21,15 +21,15 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 9021
-        resources:
-          limits:
-            memory: 512Mi
-            cpu: 1000m
-          requests:
-            memory: 2Gi
-            cpu: 1500m
-        env:
-          - name: AWS_ACCESS_KEY
-            value: "<GET from SECRET>"
-          - name: AWS_SECRET_KEY
-            value: "<GET from SECRET>"
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: 3200m
+            requests:
+              memory: 2Gi
+              cpu: 1500m
+          env:
+            - name: AWS_ACCESS_KEY
+              value: "<SECRET>"
+            - name: AWS_SECRET_KEY
+              value: "<SECRET>"
