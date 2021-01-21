@@ -21,3 +21,8 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 9021
+        env:
+          - name: AWS_ACCESS_KEY
+            value: "<GET from SECRET>"
+          - name: AWS_SECRET_KEY
+            value: "<GET from SECRET>"
