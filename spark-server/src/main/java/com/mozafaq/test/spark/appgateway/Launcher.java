@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class Launcher {
 
     private static final String SPARK_HOME = "/opt/spark";
-    private static final String APP_JAR = "local:///app/spark-app.jar";
+    private static final String APP_JAR = "/app/spark-app.jar";
 
     public int launchSparkJob(LauncherRequest launcherRequest) {
 
@@ -31,9 +31,13 @@ public class Launcher {
             throw new IllegalStateException(e);
         }
 
+        String appJar = APP_JAR;
+        if (launcherRequest.getMaster().startsWith("k8s:")) {
+            appJar  = "local://" + APP_JAR;
+        }
         SparkLauncher launcher = new SparkLauncher()
                 .setSparkHome(SPARK_HOME)
-                .setAppResource(APP_JAR)
+                .setAppResource(appJar)
                 .setDeployMode(launcherRequest.getDeployMode())
                 .setMaster(launcherRequest.getMaster())
                 .setAppName(launcherRequest.getJobId())
