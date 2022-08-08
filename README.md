@@ -1,2 +1,2 @@
-# spring-boot-k8
+# Exploring fluent
 Sample application that is having spring boot kubernettes

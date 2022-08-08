@@ -69,7 +69,7 @@ subprojects {
         }
     }
 
-    java.sourceCompatibility = org.gradle.api.JavaVersion.VERSION_11
+    java.sourceCompatibility = org.gradle.api.JavaVersion.VERSION_1_8
 
     dependencies {
 

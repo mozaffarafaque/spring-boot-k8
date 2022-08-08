@@ -2,9 +2,15 @@
 description = "Spring test application."
 
 plugins {
+    application
     id("java")
     id("idea")
+    id("application")
     id("org.springframework.boot") version "2.3.0.RELEASE"
+}
+
+application {
+  mainClassName = "com.mozafaq.test.springboot.appgateway.Application"
 }
 
 dependencies {

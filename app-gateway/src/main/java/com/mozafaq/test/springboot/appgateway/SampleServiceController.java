@@ -1,16 +1,9 @@
 package com.mozafaq.test.springboot.appgateway;
 
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Collections;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
+
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.mozafaq.test.springboot.utilslib.HttpClient;
 import com.mozafaq.test.springboot.utilslib.TestClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,16 +17,6 @@ public class SampleServiceController {
 
     private final AtomicLong counter = new AtomicLong();
     private final AtomicLong concurrencyCounter = new AtomicLong();
-
-
-    private static String COMPUTE_WORKER_HOST = String.format("http://%s", System.getenv("WORKER_COMPUTE_HOST"));
-    private static int COMPUTE_WORKER_PORT = Integer.parseInt(System.getenv("WORKER_COMPUTE_PORT"));
-    private static String COMPUTE_WORKER_URL = String.format("%s:%s", COMPUTE_WORKER_HOST, String.valueOf(COMPUTE_WORKER_PORT));
-
-
-    private static String CONTROLLER_WORKER_HOST = String.format("http://%s", System.getenv("WORKER_CONTROLLER_HOST"));
-    private static int CONTROLLER_WORKER_PORT = Integer.parseInt(System.getenv("WORKER_CONTROLLER_PORT"));
-    private static String CONTROLLER_WORKER_URL = String.format("%s:%s", CONTROLLER_WORKER_HOST, String.valueOf(CONTROLLER_WORKER_PORT));
 
     @GetMapping("/app-gateway/app-name")
     public String appNamePath() {
@@ -50,7 +33,7 @@ public class SampleServiceController {
     @GetMapping("/app-gateway/calculate-fibonacci")
     public long calculateFibonacciPath(@RequestParam(value = "number", defaultValue = "1") int number) {
         LOG.info("Request for calculating the fibonacci of (with Path) " + number );
-        return calculateFibonacci(number);
+        return number;
     }
 
     @GetMapping("/status")
@@ -114,41 +97,5 @@ public class SampleServiceController {
             throw new IllegalStateException(e);
         }
         return new PostResponse<>(counter.incrementAndGet(), request.getPayload());
-    }
-
-    @GetMapping("/calculate-fibonacci")
-    public long calculateFibonacci(@RequestParam(value = "number", defaultValue = "1") int number) {
-        LOG.info("Request for calculating the fibonacci of " + number );
-
-        HttpClient client = new HttpClient(COMPUTE_WORKER_URL + "/calculate-fibonacci");
-        String value = client.performGet(Collections.singletonMap("number", String.valueOf(number)));
-        return Long.parseLong(value);
-    }
-
-    @GetMapping("/sum")
-    public long calculateSum(@RequestParam(name = "num1") long num1,
-                             @RequestParam(name = "num2") long num2) {
-
-        LOG.info("Start: Request sum calculation " + num1 + " and " + num2);
-        HttpClient client = new HttpClient(COMPUTE_WORKER_URL + "/sum");
-        Map<String, String> map = new ConcurrentHashMap<>();
-        map.put("num1", String.valueOf(num1));
-        map.put("num2", String.valueOf(num2));
-        String value = client.performGet(map);
-        return Long.parseLong(value);
-    }
-
-    @GetMapping("/worker-controller/log-app-access")
-    public String logAppAccessPath() {
-        LOG.info("Start: Request for app log access with path");
-        return logAppAccess();
-    }
-
-    @GetMapping("/log-app-access")
-    public String logAppAccess() {
-        LOG.info("Start: Request for app log access");
-        HttpClient client = new HttpClient(CONTROLLER_WORKER_URL + "/log-app-access");
-        String value = client.performGet(Collections.emptyMap());
-        return value;
     }
 }
