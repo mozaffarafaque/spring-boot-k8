@@ -2,11 +2,14 @@ package com.mozafaq.test.springboot.appgateway;
 
 
 
+import java.lang.management.MemoryType;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.mozafaq.test.springboot.utilslib.TestClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,6 +31,11 @@ public class SampleServiceController {
     public String getStatusPath() {
         LOG.info("Request for status query with Path");
         return getStatus();
+    }
+
+    @PostMapping(path = "/app-log", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void captureLog(@RequestBody Map<String, Object> object) {
+        LOG.info("Captured log - {}", object);
     }
 
     @GetMapping("/app-gateway/calculate-fibonacci")

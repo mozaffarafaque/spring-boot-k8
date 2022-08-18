@@ -3,6 +3,8 @@
  */
 package com.mozafaq.test.springboot.appgateway;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -12,10 +14,18 @@ import java.util.Collections;
 public class Application {
 
     public static void main(String[] args) {
+        final Logger LOG = LoggerFactory.getLogger(Application.class);
+
+        LOG.info("Starting the application ..........");
         SpringApplication application =  new SpringApplication(Application.class);
         if (args.length == 1) {
-            application.setDefaultProperties(Collections.singletonMap("server.port", args[0]));
+            LOG.info("Starting the application with supplied port {} ..........", args[0]);
+            application.setDefaultProperties(Collections.singletonMap("server.port",
+                    Integer.parseInt(args[0])));
+        } else {
+            LOG.warn("Port is not supplied therefore server will be starting on default port!!");
         }
+        LOG.info("Starting the application with the properties ..........");
         application.run(args);
     }
 }

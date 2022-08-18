@@ -1,0 +1,36 @@
+FROM openjdk:11-jre-slim 
+RUN apt-get update && apt-get install -y procps curl rpm
+RUN apt-get install -y build-essential autoconf libtool pkg-config
+RUN apt-get install -y git curl autoconf bison build-essential\
+     libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev\
+     libgdbm6 libgdbm-dev libdb-dev
+#RUN apt-get install -y sudo
+
+RUN curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash
+
+RUN $HOME/.rbenv/bin/rbenv install 2.6.10
+RUN apt-get install -y make
+
+ARG JAR_FILE=app-gateway/build/libs/app-gateway-1.0.jar
+
+
+# RUN curl -L https://toolbelt.treasuredata.com/sh/install-redhat-td-agent3.sh | sh
+
+RUN apt-get install -y ruby-full
+RUN gem install fluentd --no-doc
+
+RUN mkdir -p /etc/td-agent/
+RUN mkdir -p /app/init
+
+
+RUN fluentd --setup /fluent
+COPY deployment/conf/fluent.conf /fluentd/fluent.conf
+COPY deployment/init/entrypoint_start.sh /app/init/entrypoint_start.sh
+COPY ${JAR_FILE} app.jar
+
+RUN mkdir -p /home/logs/
+RUN touch /home/logs/test.log
+
+ENTRYPOINT ["bash", "/app/init/entrypoint_start.sh"]
+
+
